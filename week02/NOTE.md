@@ -1,6 +1,66 @@
-# JS词法、类型
+# 重学JS
+## JS 产生式
 
-## 源字符
+### 产生式（BNF-巴科斯范式）
+1. 用尖括号括起来
+1. 语法结构分成基础结构和需要用基础结构复合的复合结构
+  1. 基础结构称终结符
+  1. 复合皆否称非终结符
+3. 引号与中间的字符表示终结符
+3. 可以有括号
+3. *表示重复多次
+3. |表示或
+3. +表示至少一次
+#### 示例
+```
+# 定义语言
+# 终结符
+"a"
+"b"
+# 定义 Number 为
+<Number> ::= "0" | "1" | "2" |... |"9"
+# 任意位的Number
+<DecimalNumber> ::= "0" | (("1" | "2" |... |"9") + <Number>*)
+# 加法1: 
+<AdditiveExpression> ::= <DecimalNumber> "+" <DecimalNumber>
+
+# 加法2: 递归实现加法
+<AdditiveExpression> ::= <AdditiveExpression> "+" <DecimalNumber>
+
+# 加法3 合并1与2
+<AdditiveExpression> ::= <DecimalNumber> | <AdditiveExpression> "+" <DecimalNumber>
+
+```
+#### 四则运算
+
+- 1 + 2 * 3
+```
+<MutiplicativeExpression> ::= <DecimalNumber> | <MutiplicativeExpression> "*" <DecimalNumber>
+
+<LogicalExpression> ::= <AdditiveExpression> | 
+	<LogicalExpression> "||" <AdditiveExpression> |
+  <LogicalExpression> "&&" <AdditiveExpression>
+
+# 括号
+<PrimaryExpression> ::= <DecimalNumber> |
+	"(" <LogicalExpression>")"
+```
+```
+
+
+BNF范式是一种用递归的思想来表述计算机语言符号集的定义规范法则：
+::=表示定义；
+“  ”双引号里的内容表示字符；
+<>尖括号里的内容表示必选内容；
+| 竖线两边的是可选内容，相当于or；
+示例
+定义java中的switch语句：
+<switch statement> ::= switch ( <expression> ) <switch block><switch block> ::= { <switch block statement groups><switch labels> }<switch block statement groups> ::= <switch block statement group> | <switch block statement groups> <switch block statement group><switch block statement group> ::= <switch labels><block statements><switch labels> ::= <switch label> | <switch labels> <switch label><switch label> ::= case <constant expression> :<……> | default :< ……>
+```
+
+## JS词法、类型
+
+### 源字符
 > 所有的unicode
 
 1. 基本内容
@@ -20,10 +80,10 @@ console.log(厉害)
 var \u5839\u5bb3 = 2 // 这就是厉害两个字
 console.log(厉害)
 ```
-## 元素
+### 元素
 > 四个顶级输入元素
 
-### InputElement
+#### InputElement
 
 - Whitespace-支持unicode的空白
   - tab
